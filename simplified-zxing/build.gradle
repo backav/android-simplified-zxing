@@ -34,7 +34,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = "li.xiangyang.android"
-version = "0.1"
+version = "0.3"
 
 def siteUrl = 'https://github.com/backav/android-simplified-zxing'    // project homepage
 def gitUrl = 'https://github.com/backav/android-simplified-zxing.git' // project git
@@ -81,6 +81,12 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+afterEvaluate {
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompile.classpath.files
+    })
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
