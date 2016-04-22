@@ -19,6 +19,7 @@ package com.google.zxing.client.android.camera;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -194,6 +195,16 @@ final class CameraConfigurationManager {
         }
 
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
+
+        if (parameters.getMaxNumMeteringAreas() > 0) {
+            List<Camera.Area> meteringAreas = new ArrayList<Camera.Area>();
+            Rect areaRect1 = new Rect(-500, -500, 500, 500); // 在图像的中心指定一个区域
+            meteringAreas.add(new Camera.Area(areaRect1, 1000));
+            parameters.setMeteringAreas(meteringAreas);
+            if (parameters.getMaxNumFocusAreas() > 0) {
+                parameters.setFocusAreas(meteringAreas);
+            }
+        }
 
         Log.i(TAG, "Final camera parameters: " + parameters.flatten());
 
