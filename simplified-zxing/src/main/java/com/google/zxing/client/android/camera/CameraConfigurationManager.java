@@ -62,7 +62,7 @@ final class CameraConfigurationManager {
         Point theScreenResolution = new Point();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             display.getRealSize(theScreenResolution);
-        }else{
+        } else {
             display.getSize(theScreenResolution);
         }
         screenResolution = theScreenResolution;
@@ -200,16 +200,6 @@ final class CameraConfigurationManager {
         }
 
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
-
-        if (parameters.getMaxNumMeteringAreas() > 0) {
-            List<Camera.Area> meteringAreas = new ArrayList<Camera.Area>();
-            Rect areaRect1 = new Rect(-500, -500, 500, 500); // 在图像的中心指定一个区域
-            meteringAreas.add(new Camera.Area(areaRect1, 1000));
-            parameters.setMeteringAreas(meteringAreas);
-            if (parameters.getMaxNumFocusAreas() > 0) {
-                parameters.setFocusAreas(meteringAreas);
-            }
-        }
 
         Log.i(TAG, "Final camera parameters: " + parameters.flatten());
 
