@@ -1,1 +1,1 @@
-include ':simplified-zxing'
+include ':simplified-zxing', ':examples'
