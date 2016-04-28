@@ -89,11 +89,14 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                     Camera.Parameters parameters = camera.getParameters();
                     if (parameters.getMaxNumMeteringAreas() > 0) {
                         List<Camera.Area> meteringAreas = new ArrayList<Camera.Area>();
-                        Rect areaRect1 = new Rect(-500, -500, 500, 500); // 在图像的中心指定一个区域
+                        Rect areaRect1 = new Rect(-200, -200, 200, 200); // 在图像的中心指定一个区域
                         meteringAreas.add(new Camera.Area(areaRect1, 1000));
                         parameters.setMeteringAreas(meteringAreas);
+
                         if (parameters.getMaxNumFocusAreas() > 0) {
-                            parameters.setFocusAreas(meteringAreas);
+                            List<Camera.Area> list = new ArrayList<>(1);
+                            list.add(new Camera.Area(new Rect(-500, -500, 500, 500), 1000));
+                            parameters.setFocusAreas(list);
                         }
                     }
                     camera.setParameters(parameters);
