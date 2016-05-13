@@ -123,7 +123,7 @@ public final class ViewfinderView extends View {
 
     if (resultBitmap != null) {
       // Draw the opaque result bitmap over the scanning rectangle
-      paint.setAlpha(CURRENT_POINT_OPACITY);
+      paint.setAlpha(255);
       canvas.drawBitmap(resultBitmap, null, frame, paint);
     } else {
 

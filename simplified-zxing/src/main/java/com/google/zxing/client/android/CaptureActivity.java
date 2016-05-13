@@ -369,6 +369,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             drawResultPoints(barcode, scaleFactor, rawResult);
         }
 
+        viewfinderView.drawResultBitmap(barcode);
         this.onScaned(rawResult, barcode);
     }
 

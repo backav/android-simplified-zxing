@@ -2,6 +2,7 @@ package li.xiangyang.android.examples;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.google.zxing.client.android.Intents;
@@ -19,6 +20,14 @@ public class MainActivity extends ScanActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏
+
+
+        findViewFinderView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restartPreviewAfterDelay(100);
+            }
+        });
 
     }
 }
