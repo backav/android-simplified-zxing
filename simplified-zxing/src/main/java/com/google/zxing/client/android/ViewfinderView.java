@@ -118,6 +118,7 @@ public final class ViewfinderView extends View {
     paint.setDither(true);
 
     float boxOffset=39*(canvas.getWidth()/1080f);
+    paint.setAlpha(255);
     canvas.drawBitmap(scannerBoxBitmap,frame.left+boxOffset,frame.top+boxOffset,paint);
 
     if (resultBitmap != null) {
