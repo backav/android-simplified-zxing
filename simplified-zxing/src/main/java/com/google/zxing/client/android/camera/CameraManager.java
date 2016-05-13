@@ -44,8 +44,8 @@ public final class CameraManager {
 
     private static final int MIN_FRAME_WIDTH = 240;
     private static final int MIN_FRAME_HEIGHT = 240;
-    private static final int MAX_FRAME_WIDTH = 1200; // = 5/8 * 1920
-    private static final int MAX_FRAME_HEIGHT = 675; // = 5/8 * 1080
+    private static final int MAX_FRAME_WIDTH = 1200;
+    private static final int MAX_FRAME_HEIGHT = 740;
 
     private final Context context;
     private final CameraConfigurationManager configManager;
@@ -236,7 +236,7 @@ public final class CameraManager {
     }
 
     private static int findDesiredDimensionInRange(int resolution, int hardMin, int hardMax) {
-        int dim = 5 * resolution / 8; // Target 5/8 of each dimension
+        int dim = 740 * resolution / 1080; // Target 5/8 of each dimension
         if (dim < hardMin) {
             return hardMin;
         }

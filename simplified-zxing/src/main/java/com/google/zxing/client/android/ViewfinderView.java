@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -45,7 +46,7 @@ import java.util.List;
 public final class ViewfinderView extends View {
 
   private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
-  private static final long ANIMATION_DELAY = 80L;
+  private static final long ANIMATION_DELAY = 30L;
   private static final int CURRENT_POINT_OPACITY = 0xA0;
   private static final int MAX_RESULT_POINTS = 20;
   private static final int POINT_SIZE = 6;
@@ -59,8 +60,10 @@ public final class ViewfinderView extends View {
   private final int laserColor;
   private final int resultPointColor;
   private int scannerAlpha;
+  private int scannerMiddle;
   private List<ResultPoint> possibleResultPoints;
   private List<ResultPoint> lastPossibleResultPoints;
+  private Bitmap scannerBoxBitmap;
 
   // This constructor is used when the class is built from an XML resource.
   public ViewfinderView(Context context, AttributeSet attrs) {
@@ -82,6 +85,8 @@ public final class ViewfinderView extends View {
     scannerAlpha = 0;
     possibleResultPoints = new ArrayList<>(5);
     lastPossibleResultPoints = null;
+
+    scannerBoxBitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.scanner_box);
   }
 
   public void setCameraManager(CameraManager cameraManager) {
@@ -106,8 +111,14 @@ public final class ViewfinderView extends View {
     paint.setColor(resultBitmap != null ? resultColor : maskColor);
     canvas.drawRect(0, 0, width, height, paint);
 
-    canvas.drawRoundRect(new RectF(frame.left,frame.top,frame.right,frame.bottom),30,30,boxPaint);
+    canvas.drawRoundRect(new RectF(frame.left,frame.top,frame.right,frame.bottom),10,10,boxPaint);
 
+    paint.setAntiAlias(true);
+    paint.setFilterBitmap(true);
+    paint.setDither(true);
+
+    float boxOffset=39*(canvas.getWidth()/1080f);
+    canvas.drawBitmap(scannerBoxBitmap,frame.left+boxOffset,frame.top+boxOffset,paint);
 
     if (resultBitmap != null) {
       // Draw the opaque result bitmap over the scanning rectangle
@@ -117,9 +128,14 @@ public final class ViewfinderView extends View {
 
       // Draw a red "laser scanner" line through the middle to show decoding is active
       paint.setColor(laserColor);
-      paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
+//      paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
       scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-      int middle = frame.height() / 2 + frame.top;
+//      int middle = frame.height() / 2 + frame.top;
+
+
+      int middle=frame.top+scannerMiddle;
+      scannerMiddle = (scannerMiddle+5)%frame.height();
+
       canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
       
       float scaleX = frame.width() / (float) previewFrame.width();
